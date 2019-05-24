@@ -13,8 +13,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var superTestView: UIView!
     
     weak var testView: UIView!
-    
     var testViewAnimator: UIViewPropertyAnimator?
+    
     var playButtonPressed = true
     
     override func viewDidLoad() {
@@ -58,17 +58,22 @@ class ViewController: UIViewController {
         let randomX = CGFloat(arc4random_uniform(UInt32(rect.width))) + rect.minX
         let randomY = CGFloat(arc4random_uniform(UInt32(rect.height))) + rect.minY
         
-        let randomScaleX = CGFloat(arc4random_uniform(UInt32(1.5 * 100)) / 100) + CGFloat(0.5)
-        let randomScaleY = CGFloat(arc4random_uniform(UInt32(1.5 * 100)) / 100) + CGFloat(0.5)
+        let randomScale = CGFloat(arc4random_uniform(UInt32(1.5 * 100)) / 100) + CGFloat(0.5)
+        
+        let randomAngle = CGFloat(arc4random_uniform(UInt32(CGFloat.pi * 2 * 1000)) / 1000)
         
         let parameter = UICubicTimingParameters(animationCurve: .linear)
-        
         let animator = UIViewPropertyAnimator(duration: 3, timingParameters: parameter)
         
         animator.addAnimations {
             view.center = CGPoint(x: randomX, y: randomY)
-            view.transform = CGAffineTransform(scaleX: randomScaleX, y: randomScaleY)
             view.backgroundColor = self.randomColor()
+            
+            let scaleTransform = CGAffineTransform(scaleX: randomScale, y: randomScale)
+            let rotateTransform = CGAffineTransform(rotationAngle: randomAngle)
+            let comboTransform = scaleTransform.concatenating(rotateTransform)
+            
+            view.transform = comboTransform
         }
         
         animator.addCompletion { _ in
