@@ -15,7 +15,6 @@ class ViewController: UIViewController {
     weak var testView: UIView!
     
     var testViewAnimator: UIViewPropertyAnimator?
-    
     var playButtonPressed = true
     
     override func viewDidLoad() {
@@ -26,7 +25,6 @@ class ViewController: UIViewController {
         view.backgroundColor = .red
         superTestView.addSubview(view)
         testView = view
-        
     }
     
     func randomColor() -> UIColor {
@@ -55,7 +53,7 @@ class ViewController: UIViewController {
     
     func moveView(_ view: UIView) {
         
-        let rect = superTestView.bounds.insetBy(dx: testView.bounds.width, dy: testView.bounds.height)
+        let rect = superTestView.bounds.insetBy(dx: view.bounds.width, dy: view.bounds.height)
         
         let randomX = CGFloat(arc4random_uniform(UInt32(rect.width))) + rect.minX
         let randomY = CGFloat(arc4random_uniform(UInt32(rect.height))) + rect.minY
@@ -68,9 +66,9 @@ class ViewController: UIViewController {
         let animator = UIViewPropertyAnimator(duration: 3, timingParameters: parameter)
         
         animator.addAnimations {
-            self.testView.center = CGPoint(x: randomX, y: randomY)
-            self.testView.transform = CGAffineTransform(scaleX: randomScaleX, y: randomScaleY)
-            self.testView.backgroundColor = self.randomColor()
+            view.center = CGPoint(x: randomX, y: randomY)
+            view.transform = CGAffineTransform(scaleX: randomScaleX, y: randomScaleY)
+            view.backgroundColor = self.randomColor()
         }
         
         animator.addCompletion { _ in
